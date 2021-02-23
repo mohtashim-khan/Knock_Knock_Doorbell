@@ -1,6 +1,9 @@
-#define
+#include <WiFi.h>
+#include <WiFiClient.h>
+#include <WiFiServer.h>
+#include <WiFiUdp.h>
 
-
+#include "MKR_HeaderFile.h"
 void setup() {
   // put your setup code here, to run once:
   initBluetooth();
