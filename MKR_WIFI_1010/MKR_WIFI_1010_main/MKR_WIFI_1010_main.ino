@@ -7,7 +7,7 @@
 void setup() {
   // put your setup code here, to run once:
   initBluetooth();
-  intiWifi();
+  initWifi();
   connectBluetooth();
   connectWifi();
   
