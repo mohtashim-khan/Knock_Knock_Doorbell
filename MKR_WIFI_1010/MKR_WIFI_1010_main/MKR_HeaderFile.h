@@ -7,6 +7,6 @@ as the project progesses.
 #include <WiFiNINA.h>
 
  void initBluetooth();
- void intiWifi();
+ void initWifi();
  void connectBluetooth();
  void connectWifi();
