@@ -4,9 +4,16 @@ File used to define the functions that will be needed
 as the project progesses.
  */
 
-#include <WiFiNINA.h>
+#define WIFI_NAME "Wifi Name"
+#define WIFI_PASSWORD "Wifi Password"
 
- void initBluetooth();
- void initWifi();
+#include <WiFiNINA.h>
+#include <ArduinoBLE.h>
+
+
+
  void connectBluetooth();
  void connectWifi();
+ void doorbellButtonPressed();
+ void sendPhoneNotif();
+ void sendWristBandNotif();
