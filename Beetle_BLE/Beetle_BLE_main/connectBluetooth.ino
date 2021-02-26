@@ -2,6 +2,8 @@
 
 void connectBluetooth()
 {
+  SoftwareSerial DebugSerial(2, 3); // RX, TX
+
   char auth[] = "eAM0Uf0tMVNlh0qZR6re0pgirGfdnEev";
   
   DebugSerial.begin(9600);
