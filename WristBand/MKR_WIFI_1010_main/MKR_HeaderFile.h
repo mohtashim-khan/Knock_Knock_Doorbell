@@ -16,14 +16,4 @@ as the project progesses.
 #include <WiFiNINA.h>
 #include <BlynkSimpleWiFiNINA.h> //BLYNK library
 
-
-
- void connectBluetooth(); // again will probably not need this
  void connectWifi(); //Connects to BLYNK App through Wifi
- boolean doorbellButtonPressed(); //Check if doorbell button is pressed
- void sendPhoneNotif(); //Send the phone notification
- void sendWristBandNotif(); // Send the wristband notification
- void putMKRtoSleep(); //battery life saving techinique, will need to implement for the final product.
- void notifyDoorbellBattery();
- //DEBUGGING
- void flipflop();
