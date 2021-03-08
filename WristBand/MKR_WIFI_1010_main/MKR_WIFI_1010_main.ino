@@ -1,5 +1,7 @@
 #include "MKR_HeaderFile.h"
 
+//WRISTBAND
+
 void setup() {
   connectWifi();
 }

@@ -1,5 +1,7 @@
 #include "MKR_HeaderFile.h"
 
+//DOORBELL
+
 WidgetBridge bridge1(V1); // Bridge widget on virtual pin 1 to allow connection to WristBand
 BlynkTimer timer; // Timer
 volatile bool pinChanged = false;
@@ -8,12 +10,14 @@ volatile int pinValue = 0;
 void setup() {
   connectWifi();
   setPinMode();
-  attachInterrupt(digitalPinToInterrupt(DOORBELL_PIN), checkPin, RISING);
+  attachInterrupt(digitalPinToInterrupt(DOORBELL_PIN), checkPin, CHANGE);
+  Serial.begin(9600);
 }
 
 
 void loop() {
   Blynk.run(); //BLYNK connection
+  Serial.println(digitalRead(1));
   
   if (pinChanged) 
   {
