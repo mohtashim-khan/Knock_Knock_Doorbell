@@ -11,13 +11,13 @@ void setup() {
   connectWifi();
   setPinMode();
   attachInterrupt(digitalPinToInterrupt(DOORBELL_PIN), checkPin, CHANGE);
-  Serial.begin(9600);
+  //Serial.begin(9600);
 }
 
 
 void loop() {
   Blynk.run(); //BLYNK connection
-  Serial.println(digitalRead(1));
+  //Serial.println(digitalRead(1));
   
   if (pinChanged) 
   {
@@ -41,13 +41,17 @@ void loop() {
 void checkPin()
 {
   // Invert value, since button is "Active LOW"
-  pinValue = !digitalRead(DOORBELL_PIN);
+  pinValue = digitalRead(DOORBELL_PIN);
   pinChanged = true;
 }
 
 void sendNotifications()
 {
   bridge1.digitalWrite(LED_BUILTIN, HIGH); // Wristband notif
+
+  //Vibration motor logic 
+
+  
   Blynk.notify("Someone is at the door!");
 }
 
