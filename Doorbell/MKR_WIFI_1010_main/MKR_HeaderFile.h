@@ -4,8 +4,8 @@ File used to define the functions that will be needed
 as the project progesses.
  */
 
-#define WIFI_NAME "Engg4Life"
-#define WIFI_PASSWORD "ginger123"
+#define WIFI_NAME "Sohail"
+#define WIFI_PASSWORD "251171052221"
 #define DOORBELL_AUTH_CODE "JfE879N0pHv0y-XdwGikomp5jcWfkiwf"
 #define BRACELET_AUTH_CODE "eAM0Uf0tMVNlh0qZR6re0pgirGfdnEev"
 #define DOORBELL_PIN 1
@@ -24,6 +24,6 @@ as the project progesses.
  void sendPhoneNotif(); //Send the phone notification
  void sendWristBandNotif(); // Send the wristband notification
  void putMKRtoSleep(); //battery life saving techinique, will need to implement for the final product.
- void notifyDoorbellBattery();
+ void checkBatteryVoltage();
  //DEBUGGING
  void flipflop();

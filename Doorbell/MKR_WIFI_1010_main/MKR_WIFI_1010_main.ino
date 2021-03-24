@@ -11,13 +11,15 @@ void setup() {
   connectWifi();
   setPinMode();
   attachInterrupt(digitalPinToInterrupt(DOORBELL_PIN), checkPin, CHANGE);
-  //Serial.begin(9600);
+  timer.setInterval(2000L, checkBatteryVoltage);
+//  Serial.begin(9600);
 }
 
 
 void loop() {
   Blynk.run(); //BLYNK connection
-  //Serial.println(digitalRead(1));
+  timer.run();
+//  Serial.println(digitalRead(DOORBELL_PIN));
   
   if (pinChanged) 
   {
@@ -25,6 +27,7 @@ void loop() {
     if (pinValue) 
     {
       sendNotifications();
+  //    Serial.print("sendNotifications()");
     } 
     else 
     {
@@ -43,6 +46,7 @@ void checkPin()
   // Invert value, since button is "Active LOW"
   pinValue = digitalRead(DOORBELL_PIN);
   pinChanged = true;
+  //Serial.print("inside Interrupt");
 }
 
 void sendNotifications()
@@ -57,7 +61,19 @@ void sendNotifications()
 
 void setPinMode()
 {
-  pinMode(DOORBELL_PIN, INPUT_PULLUP);
+  pinMode(DOORBELL_PIN, INPUT);
+}
+
+void checkBatteryVoltage()
+{
+  int sensorValue = analogRead(ADC_BATTERY);
+  float voltage = sensorValue * (4.3 / 1023.0);
+  Blynk.virtualWrite(V1,voltage);
+  if(voltage<3.3)
+  {
+    Blynk.notify("Recharge doorbell battery!!");
+  }
+  
 }
 
 
