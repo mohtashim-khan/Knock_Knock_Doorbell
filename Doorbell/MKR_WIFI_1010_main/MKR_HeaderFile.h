@@ -25,5 +25,8 @@ as the project progesses.
  void sendWristBandNotif(); // Send the wristband notification
  void putMKRtoSleep(); //battery life saving techinique, will need to implement for the final product.
  void checkBatteryVoltage();
+ void vibrationTest();
+ void vibrationOff();
+ 
  //DEBUGGING
  void flipflop();
