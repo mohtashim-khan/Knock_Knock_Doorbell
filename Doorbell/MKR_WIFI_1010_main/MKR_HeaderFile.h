@@ -12,6 +12,7 @@ as the project progesses.
 #define DOORBELL_PRESSED 1
 #define DOORBELL_NOTPRESSED 0
 #define DOORBELLTOWRIST V1
+#define BUZZER_PIN 5
 
 #include <WiFiNINA.h>
 #include <BlynkSimpleWiFiNINA.h> //BLYNK library
@@ -27,6 +28,7 @@ as the project progesses.
  void checkBatteryVoltage();
  void vibrationTest();
  void vibrationOff();
+ void turnOffBuzzer();
  
  //DEBUGGING
  void flipflop();

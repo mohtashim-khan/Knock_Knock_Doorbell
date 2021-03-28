@@ -4,9 +4,11 @@
 
 WidgetBridge bridge1(V1); // Bridge widget on virtual pin 1 to allow connection to WristBand
 BlynkTimer timer; // Timer
-BlynkTimer vibrationTimer;
+BlynkTimer vibrationTimer;  //Vibration code
+BlynkTimer buzzerTimer;
 int phoneNotifications;
 volatile bool pinChanged = false;
+volatile bool playBuzzer = false;
 volatile int pinValue = 0;
 
 //Vibration test
@@ -19,14 +21,12 @@ void setup() {
   setPinMode();
   attachInterrupt(digitalPinToInterrupt(DOORBELL_PIN), checkPin, CHANGE);
   timer.setInterval(5000L, checkBatteryVoltage);
-  Serial.begin(9600);
 }
 
 
 void loop() {
   Blynk.run(); //BLYNK connection
   timer.run();
-  Serial.println(analogRead(2));
   
   if (pinChanged) 
   {
@@ -34,7 +34,8 @@ void loop() {
     if (pinValue) 
     {
       sendNotifications();
-  //    Serial.print("sendNotifications()");
+      tone(BUZZER_PIN,2000,500);
+  
     } 
     else 
     {
@@ -42,10 +43,16 @@ void loop() {
     }
     pinChanged = false;
   }
+
   
   
   
 
+}
+
+void turnOffBuzzer()
+{
+  noTone(BUZZER_PIN);
 }
   
 void checkPin()
@@ -59,15 +66,13 @@ void checkPin()
 void sendNotifications()
 {
   bridge1.digitalWrite(LED_BUILTIN, HIGH); // Wristband notif
-
-  //Vibration motor logic TESTING - REMOVE CODE
-  vibrationTest();
-  //
-
   if(phoneNotifications)
   {
     Blynk.notify("Someone is at the door!");
   }
+  //Vibration motor logic TESTING - REMOVE CODE
+  //vibrationTest();
+  //
 }
 
 void setPinMode()
@@ -80,7 +85,7 @@ void checkBatteryVoltage()
   int sensorValue = analogRead(ADC_BATTERY);
   float voltage = sensorValue * (4.3 / 1023.0);
   Blynk.virtualWrite(V1,voltage);
-  if(voltage<3.5)
+  if(voltage<=3.5)
   {
     Blynk.notify("Recharge doorbell battery!!");
   }
@@ -96,13 +101,16 @@ BLYNK_WRITE(V3)
 
 void vibrationTest()
 {
-  analogWrite(2,255);
-  vibrationTimer.setTimeout(3000L, vibrationOff);
+  digitalWrite(2,HIGH);
+  Serial.print("INSIDE VIBRATION TEST");
+  delay(2000);
+  vibrationOff();
 }
 
 void vibrationOff()
 {
-  analogWrite(2,0);
+  digitalWrite(2,LOW);
+  Serial.print("INSIDE VIBRATIONOFF");
 }
 
 
@@ -115,6 +123,7 @@ BLYNK_WRITE(V0)
   if(pinValue)
   {
     Blynk.notify("Simulated Doorbell!");
+    //vibrationTest();
   }
 }
 
