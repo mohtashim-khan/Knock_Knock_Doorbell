@@ -3,30 +3,44 @@
 //DOORBELL
 
 WidgetBridge bridge1(V1); // Bridge widget on virtual pin 1 to allow connection to WristBand
-BlynkTimer timer; // Timer
+BlynkTimer batterytimer; // Timer
 BlynkTimer vibrationTimer;  //Vibration code
-BlynkTimer buzzerTimer;
+BlynkTimer reconnectionTimer;
 int phoneNotifications;
 volatile bool pinChanged = false;
 volatile bool playBuzzer = false;
 volatile int pinValue = 0;
+volatile int reCnctFlag;  // Reconnection Flag
+volatile int reCnctCount = 0;  // Reconnection counter
 
-//Vibration test
-int vibrationStrength;
-//
+
 
 
 void setup() {
   connectWifi();
   setPinMode();
   attachInterrupt(digitalPinToInterrupt(DOORBELL_PIN), checkPin, CHANGE);
-  timer.setInterval(5000L, checkBatteryVoltage);
+  batterytimer.setInterval(5000L, checkBatteryVoltage);
 }
 
 
 void loop() {
-  Blynk.run(); //BLYNK connection
-  timer.run();
+  batterytimer.run();
+  reconnectionTimer.run();
+  if(Blynk.connected())
+  {
+    Blynk.run(); //BLYNK connection
+  }
+  else if(reCnctFlag == 0)
+  {
+    reCnctFlag = 1;  // Set reconnection Flag
+    reconnectionTimer.setTimeout(30000L, []() 
+    {  // Lambda Reconnection Timer Function
+      reCnctFlag = 0;  // Reset reconnection Flag
+      reCnctCount++;  // Increment reconnection Counter
+      Blynk.connect();  // Try to reconnect to the server
+    }); //End timer function
+  }
   
   if (pinChanged) 
   {
@@ -85,36 +99,20 @@ void checkBatteryVoltage()
   int sensorValue = analogRead(ADC_BATTERY);
   float voltage = sensorValue * (4.3 / 1023.0);
   Blynk.virtualWrite(V1,voltage);
-  if(voltage<=3.5)
+  if(voltage<=3.5 &&phoneNotifications == 1)
   {
     Blynk.notify("Recharge doorbell battery!!");
+  }
+
+  if(voltage>=4.2 && phoneNotifications == 1)
+  {
+    Blynk.notify("Fully Charged Doorbell!");
   }
   
 }
 
 //vibration motor testing -- REMOVE FROM HERE
-BLYNK_WRITE(V3)
-{
-  vibrationStrength = param.asInt();
-  vibrationStrength = vibrationStrength/100*255;
-}
 
-void vibrationTest()
-{
-  digitalWrite(2,HIGH);
-  Serial.print("INSIDE VIBRATION TEST");
-  delay(2000);
-  vibrationOff();
-}
-
-void vibrationOff()
-{
-  digitalWrite(2,LOW);
-  Serial.print("INSIDE VIBRATIONOFF");
-}
-
-
-//
 
 //Simulate doorbell code
 BLYNK_WRITE(V0)
