@@ -21,6 +21,7 @@ void setup() {
   setPinMode();
   attachInterrupt(digitalPinToInterrupt(DOORBELL_PIN), checkPin, CHANGE);
   batterytimer.setInterval(5000L, checkBatteryVoltage);
+  Serial.begin(9600);
 }
 
 
@@ -120,6 +121,7 @@ BLYNK_WRITE(V0)
   int pinValue = param.asInt();
   if(pinValue)
   {
+    Serial.println("INSIDE SIMULATED CODE");
     Blynk.notify("Simulated Doorbell!");
     //vibrationTest();
   }
