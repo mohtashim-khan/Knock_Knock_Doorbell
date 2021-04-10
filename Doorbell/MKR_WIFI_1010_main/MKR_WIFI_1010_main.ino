@@ -53,7 +53,7 @@ void loop() {
     } 
     else 
     {
-      bridge1.digitalWrite(LED_BUILTIN, LOW); //MVP code, most likely wont have anything here for the final.
+      
     }
     pinChanged = false;
   }
@@ -79,14 +79,12 @@ void checkPin()
 
 void sendNotifications()
 {
-  bridge1.digitalWrite(LED_BUILTIN, HIGH); // Wristband notif
+  bridge1.virtualWrite(WRISTBANDNOTIFPIN,HIGH);
   if(phoneNotifications)
   {
     Blynk.notify("Someone is at the door!");
   }
-  //Vibration motor logic TESTING - REMOVE CODE
-  //vibrationTest();
-  //
+  
 }
 
 void setPinMode()
@@ -97,7 +95,7 @@ void setPinMode()
 void checkBatteryVoltage()
 {
   int sensorValue = analogRead(ADC_BATTERY);
-  float voltage = sensorValue * (4.3 / 1023.0);
+  float voltage = sensorValue * (4.25 / 1023.0);
   Blynk.virtualWrite(V1,voltage);
   if(voltage<=3.5 &&phoneNotifications == 1)
   {
@@ -120,8 +118,8 @@ BLYNK_WRITE(V0)
   int pinValue = param.asInt();
   if(pinValue)
   {
-    Blynk.notify("Simulated Doorbell!");
-    //vibrationTest();
+    Blynk.notify("Family Alert!");
+    bridge1.virtualWrite(WRISTBANDNOTIFPIN,HIGH);
   }
 }
 

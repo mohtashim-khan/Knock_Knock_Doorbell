@@ -12,6 +12,7 @@ as the project progesses.
 #define DOORBELL_PRESSED 1
 #define DOORBELL_NOTPRESSED 0
 #define DOORBELLTOWRIST V1
+#define VIBRATION_PIN 5
 
 #include <WiFiNINA.h>
 #include <BlynkSimpleWiFiNINA.h> //BLYNK library

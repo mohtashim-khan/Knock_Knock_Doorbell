@@ -13,6 +13,7 @@ as the project progesses.
 #define DOORBELL_NOTPRESSED 0
 #define DOORBELLTOWRIST V1
 #define BUZZER_PIN 5
+#define WRISTBANDNOTIFPIN V4
 
 #include <WiFiNINA.h>
 #include <BlynkSimpleWiFiNINA.h> //BLYNK library
