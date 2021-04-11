@@ -4,7 +4,7 @@
 BlynkTimer batterytimer; // Timer
 BlynkTimer vibrationTimer;  //Vibration Timer
 //Vibration test
-int vibrationStrength;
+float vibrationStrength;
 int sendVibration;
 int threeSecondsElapsed;
 int endTime;
@@ -13,8 +13,7 @@ int startTime;
 
 void setup() {
   connectWifi();
-  //batterytimer.setInterval(5000L, checkBatteryVoltage);
-  Serial.begin(9600);
+  batterytimer.setInterval(5000L, checkBatteryVoltage);
 }
 
 
@@ -22,7 +21,7 @@ void loop()
 {
   Blynk.run(); //BLYNK connection
   batterytimer.run();
-  if((millis() - startTime)>= 3000)
+  if((millis() - startTime)== 2500)
   {
     vibrationOff();
   }
@@ -38,7 +37,7 @@ void checkBatteryVoltage()
   Blynk.virtualWrite(V1,voltage);
   if(voltage<=3.5)
   {
-    Blynk.notify("Recharge WristBand battery!!");
+    Blynk.notify("Recharge ArmBand battery!!");
   }
 
   if(voltage>=4.25)
@@ -54,6 +53,7 @@ BLYNK_WRITE(V3)
 {
   vibrationStrength = param.asInt();
   vibrationStrength = vibrationStrength/100*255;
+  //Serial.println(vibrationStrength);
 }
 
 //Process Notification from Doorbell Module
