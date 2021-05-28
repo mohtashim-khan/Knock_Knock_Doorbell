@@ -1,4 +1,4 @@
-# Knock_Knock_Doorbell
- Silent doorbell Arduino Code!
+# Silent Doorbell IoT Project
+Knock_Knock Doorbell
 
-test commit
+This repo contains all the code for both Wristband and Doorbell modules.
